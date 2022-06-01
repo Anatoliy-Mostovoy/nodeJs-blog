@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const Joi = require("joi");
 const express = require("express");
 const { runInNewContext } = require("vm");
 const router = express.Router();
@@ -31,12 +32,28 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const schema = Joi.object({
+    text: Joi.string().min(3).max(30).required(),
+    topic: Joi.string().min(3).max(30).required(),
+  });
+  const validate = schema.validate(req.body);
+  if (validate.error) {
+    return res.status(400).json({ message: validate.error.message });
+  }
   const { topic, text } = req.body;
   posts.push({ id: crypto.randomUUID(), topic, text });
   res.status(200).json({ status: "success", code: 200 });
 });
 
 router.put("/:id", (req, res) => {
+  const schema = Joi.object({
+    text: Joi.string().min(3).max(30),
+    topic: Joi.string().min(3).max(30),
+  });
+  const validate = schema.validate(req.body);
+  if (validate.error) {
+    return res.status(400).json({ message: validate.error.message });
+  }
   const { topic, text } = req.body;
   posts.map((post) => {
     if (post.id === Number(req.params.id)) {
