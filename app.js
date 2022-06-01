@@ -6,9 +6,9 @@ const postsRouter = require("./routs/postsRouter.js");
 
 app.use(cors());
 app.use(morgan("tiny"));
-app.use(express.json());
+app.use(express.json()); //* для парсінга body в JSON
 
-app.use("/posts", postsRouter);
+app.use("/api/posts", postsRouter);
 
 app.use((req, res) => {});
 app.use((err, req, res, next) => {});
