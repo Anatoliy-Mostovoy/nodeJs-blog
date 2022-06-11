@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 const ObjectId = require("mongodb").ObjectId;
 
 const getPosts = async (req, res) => {
