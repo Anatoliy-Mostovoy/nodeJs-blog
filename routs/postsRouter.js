@@ -7,8 +7,6 @@ const {
   putValidation,
 } = require("../middleware/validation.js");
 
-const modelMiddleware = require("../middleware/models.js");
-
 const {
   getPosts,
   getPostById,
@@ -19,7 +17,6 @@ const {
 
 const { asyncWrapper } = require("../helpers/apiHelpers.js");
 
-router.use(modelMiddleware);
 router.get("/", asyncWrapper(getPosts));
 router.get("/:id", asyncWrapper(getPostById));
 router.post("/", postValidation, asyncWrapper(postPost));
