@@ -17,11 +17,13 @@ const {
   deletePost,
 } = require("../controllers/postsControllers.js");
 
+const { asyncWrapper } = require("../helpers/apiHelpers.js");
+
 router.use(modelMiddleware);
-router.get("/", getPosts);
-router.get("/:id", getPostById);
-router.post("/", postValidation, postPost);
-router.put("/:id", putValidation, putPost);
-router.delete("/:id", deletePost);
+router.get("/", asyncWrapper(getPosts));
+router.get("/:id", asyncWrapper(getPostById));
+router.post("/", postValidation, asyncWrapper(postPost));
+router.put("/:id", putValidation, asyncWrapper(putPost));
+router.delete("/:id", asyncWrapper(deletePost));
 
 module.exports = router;

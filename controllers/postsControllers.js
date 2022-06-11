@@ -3,7 +3,7 @@ const { response } = require("express");
 const ObjectId = require("mongodb").ObjectId;
 
 const getPosts = async (req, res) => {
-  const posts = await req.db.Posts.find().toArray();
+  const posts = await req.db1.Posts.find().toArray();
   res.status(200).json({ posts });
 };
 

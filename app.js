@@ -11,6 +11,8 @@ app.use(express.json()); //* для парсінга body в JSON
 app.use("/api/posts", postsRouter);
 
 app.use((req, res) => {});
-app.use((err, req, res, next) => {});
+app.use((err, req, res, next) => {
+  res.status(500).json({ code: 500, message: err.message });
+});
 
 module.exports = app;
