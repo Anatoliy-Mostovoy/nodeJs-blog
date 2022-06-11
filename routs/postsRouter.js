@@ -1,10 +1,13 @@
 const crypto = require("crypto");
 const express = require("express");
 const router = express.Router();
+
 const {
   postValidation,
   putValidation,
 } = require("../middleware/validation.js");
+
+const modelMiddleware = require("../middleware/models.js");
 
 const {
   getPosts,
@@ -14,6 +17,7 @@ const {
   deletePost,
 } = require("../controllers/postsControllers.js");
 
+router.use(modelMiddleware);
 router.get("/", getPosts);
 router.get("/:id", getPostById);
 router.post("/", postValidation, postPost);

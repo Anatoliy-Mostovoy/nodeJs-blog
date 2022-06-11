@@ -1,19 +1,11 @@
 require("dotenv").config();
 const app = require("../app.js");
-const { MongoClient } = require("mongodb");
+const { connectMongo } = require("../db/connection.js");
 
 const PORT = process.env.PORT || 8081;
 
 const start = async () => {
-  const client = await MongoClient.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  const db = client.db("blog");
-  const Posts = db.collection("posts");
-  const posts = await Posts.find({}).toArray();
-  console.log(posts);
+  await connectMongo();
 
   app.listen(PORT, (err, req, res) => {
     if (err) {
