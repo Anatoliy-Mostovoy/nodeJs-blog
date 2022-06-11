@@ -23,8 +23,10 @@ const getPostById = async (req, res) => {
 const postPost = async (req, res) => {
   const { topic, text } = req.body;
   await req.db.Posts.insertOne({ topic, text });
-  const posts = await req.db.Posts.find().toArray();
-  res.status(200).json({ status: "success", code: 200, posts });
+  await req.db.Posts.find().toArray();
+  res
+    .status(200)
+    .json({ status: "success", code: 200, message: "New post was saved" });
 };
 
 const putPost = async (req, res) => {
