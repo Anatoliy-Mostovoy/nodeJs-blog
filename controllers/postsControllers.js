@@ -1,14 +1,19 @@
-const { Posts } = require("../db/postModel.js");
+const {
+  getPosts,
+  getPostById,
+  addPost,
+  updatePostById,
+  deletePostById,
+} = require("../services/postsService.js");
 
 const getPostsController = async (req, res) => {
-  const posts = await Posts.find();
+  const posts = await getPosts();
   res.status(200).json({ posts });
 };
 
 const getPostByIdController = async (req, res) => {
   const { id } = req.params;
-  const post = await Posts.findById(id);
-
+  const post = await getPostById(id);
   if (!post) {
     return res.status(400).json({
       status: "filled",
@@ -21,8 +26,7 @@ const getPostByIdController = async (req, res) => {
 
 const addPostController = async (req, res) => {
   const { topic, text } = req.body;
-  const post = new Posts({ topic, text });
-  await post.save();
+  await addPost({ topic, text });
   res
     .status(200)
     .json({ status: "success", code: 200, message: "New post was saved" });
@@ -31,7 +35,7 @@ const addPostController = async (req, res) => {
 const putPostController = async (req, res) => {
   const { topic, text } = req.body;
   const { id } = req.params;
-  const post = await Posts.findByIdAndUpdate(id, { $set: { topic, text } });
+  const post = await updatePostById(id, { topic, text });
   if (!post) {
     res.status(400).json({
       status: "Filled",
@@ -44,7 +48,7 @@ const putPostController = async (req, res) => {
 
 const deletePostController = async (req, res) => {
   const { id } = req.params;
-  const post = await Posts.findById(id);
+  const post = await getPostById(id);
   if (!post) {
     return res.status(400).json({
       status: "Filled",
@@ -52,7 +56,7 @@ const deletePostController = async (req, res) => {
       message: `Post with ID${id} not found`,
     });
   }
-  await Posts.findByIdAndDelete(id);
+  await deletePostById(id);
   res.status(200).json({
     status: "Success",
     code: 200,
