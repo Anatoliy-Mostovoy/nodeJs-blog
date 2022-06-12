@@ -8,19 +8,19 @@ const {
 } = require("../middleware/validation.js");
 
 const {
-  getPosts,
-  getPostById,
-  postPost,
-  putPost,
-  deletePost,
+  getPostsController,
+  getPostByIdController,
+  addPostController,
+  putPostController,
+  deletePostController,
 } = require("../controllers/postsControllers.js");
 
 const { asyncWrapper } = require("../helpers/apiHelpers.js");
 
-router.get("/", asyncWrapper(getPosts));
-router.get("/:id", asyncWrapper(getPostById));
-router.post("/", postValidation, asyncWrapper(postPost));
-router.put("/:id", putValidation, asyncWrapper(putPost));
-router.delete("/:id", asyncWrapper(deletePost));
+router.get("/", asyncWrapper(getPostsController));
+router.get("/:id", asyncWrapper(getPostByIdController));
+router.post("/", postValidation, asyncWrapper(addPostController));
+router.put("/:id", putValidation, asyncWrapper(putPostController));
+router.delete("/:id", asyncWrapper(deletePostController));
 
 module.exports = router;

@@ -1,11 +1,11 @@
 const { Posts } = require("../db/postModel.js");
 
-const getPosts = async (req, res) => {
+const getPostsController = async (req, res) => {
   const posts = await Posts.find();
   res.status(200).json({ posts });
 };
 
-const getPostById = async (req, res) => {
+const getPostByIdController = async (req, res) => {
   const { id } = req.params;
   const post = await Posts.findById(id);
 
@@ -19,7 +19,7 @@ const getPostById = async (req, res) => {
   res.status(200).json({ status: "success", code: 200, post });
 };
 
-const postPost = async (req, res) => {
+const addPostController = async (req, res) => {
   const { topic, text } = req.body;
   const post = new Posts({ topic, text });
   await post.save();
@@ -28,7 +28,7 @@ const postPost = async (req, res) => {
     .json({ status: "success", code: 200, message: "New post was saved" });
 };
 
-const putPost = async (req, res) => {
+const putPostController = async (req, res) => {
   const { topic, text } = req.body;
   const { id } = req.params;
   const post = await Posts.findByIdAndUpdate(id, { $set: { topic, text } });
@@ -42,7 +42,7 @@ const putPost = async (req, res) => {
   res.status(200).json({ status: "Success", code: 200, post });
 };
 
-const deletePost = async (req, res) => {
+const deletePostController = async (req, res) => {
   const { id } = req.params;
   const post = await Posts.findById(id);
   if (!post) {
@@ -60,7 +60,13 @@ const deletePost = async (req, res) => {
   });
 };
 
-module.exports = { getPosts, getPostById, postPost, putPost, deletePost };
+module.exports = {
+  getPostsController,
+  getPostByIdController,
+  addPostController,
+  putPostController,
+  deletePostController,
+};
 
 //TODO native mongoDB
 // const ObjectId = require("mongodb").ObjectId;
