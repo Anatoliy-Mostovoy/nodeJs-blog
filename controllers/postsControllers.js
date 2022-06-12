@@ -31,10 +31,7 @@ const postPost = async (req, res) => {
 const putPost = async (req, res) => {
   const { topic, text } = req.body;
   const { id } = req.params;
-  const post = await req.db.Posts.updateOne(
-    { _id: new ObjectId(id) },
-    { $set: { topic, text } }
-  );
+  const post = await Posts.findByIdAndUpdate(id, { $set: { topic, text } });
   if (!post) {
     res.status(400).json({
       status: "Filled",
@@ -47,7 +44,7 @@ const putPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   const { id } = req.params;
-  const post = await req.db.Posts.findOne({ _id: new ObjectId(id) });
+  const post = await Posts.findById(id);
   if (!post) {
     return res.status(400).json({
       status: "Filled",
@@ -55,7 +52,7 @@ const deletePost = async (req, res) => {
       message: `Post with ID${id} not found`,
     });
   }
-  await req.db.Posts.deleteOne({ _id: new ObjectId(id) });
+  await Posts.findByIdAndDelete(id);
   res.status(200).json({
     status: "Success",
     code: 200,
