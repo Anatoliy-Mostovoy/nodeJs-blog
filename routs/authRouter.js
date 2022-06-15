@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const { asyncWrapper } = require("../helpers/apiHelpers.js");
 const {
   registrationController,
@@ -9,4 +10,4 @@ const {
 router.post("/registration", asyncWrapper(registrationController));
 router.post("/login", asyncWrapper(loginController));
 
-module.exports = { router };
+module.exports = router;
