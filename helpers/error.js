@@ -10,4 +10,12 @@ class WrongParametersError extends Error {
     this.status = 400;
   }
 }
-module.exports = { VAlidationError, WrongParametersError };
+
+class notAuthorizeError extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 401;
+  }
+}
+
+module.exports = { VAlidationError, WrongParametersError, notAuthorizeError };
