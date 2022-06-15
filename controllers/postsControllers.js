@@ -5,6 +5,7 @@ const {
   updatePostById,
   deletePostById,
 } = require("../services/postsService.js");
+const { WrongParametersError } = require("../helpers/error");
 
 const getPostsController = async (req, res) => {
   const posts = await getPosts();
@@ -15,11 +16,7 @@ const getPostByIdController = async (req, res) => {
   const { id } = req.params;
   const post = await getPostById(id);
   if (!post) {
-    return res.status(400).json({
-      status: "filled",
-      code: 400,
-      message: `Posts with ID: ${id} not found`,
-    });
+    throw new WrongParametersError(`Posts with ID: ${id} not found`);
   }
   res.status(200).json({ status: "success", code: 200, post });
 };
@@ -37,11 +34,7 @@ const putPostController = async (req, res) => {
   const { id } = req.params;
   const post = await updatePostById(id, { topic, text });
   if (!post) {
-    res.status(400).json({
-      status: "Filled",
-      code: 400,
-      message: `Post with ID${id} not found`,
-    });
+    throw new WrongParametersError(`Post with ID${id} not found`);
   }
   res.status(200).json({ status: "Success", code: 200, post });
 };
@@ -50,11 +43,7 @@ const deletePostController = async (req, res) => {
   const { id } = req.params;
   const post = await getPostById(id);
   if (!post) {
-    return res.status(400).json({
-      status: "Filled",
-      code: 400,
-      message: `Post with ID${id} not found`,
-    });
+    throw new WrongParametersError(`Post with ID${id} not found`);
   }
   await deletePostById(id);
   res.status(200).json({
