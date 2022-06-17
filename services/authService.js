@@ -4,7 +4,7 @@ const { notAuthorizeError } = require("../helpers/error.js");
 const saltRounds = 10;
 
 const registration = async (email, password) => {
-  const user = new User({ email, password: bcrypt(password, saltRounds) });
+  const user = new User({ email, password: bcrypt.hash(password, saltRounds) });
   await user.save();
 };
 const login = async () => {};
