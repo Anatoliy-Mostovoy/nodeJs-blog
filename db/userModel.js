@@ -14,6 +14,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userScheme.pre("save", async function () {
+  if (this.isNew) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+}); //* .pre означает что мидл вара будет выполняться перед сохранением.
+
 //* Компилируем модель
 const User = mongoose.model("User", userSchema);
 
